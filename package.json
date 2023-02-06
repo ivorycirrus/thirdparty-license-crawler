@@ -1,8 +1,12 @@
 {
   "name": "thirdparty-license-crawler",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "crawling thirdparty licenses from package manager files (packages.json, pom.xml, ...)",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ivorycirrus/thirdparty-license-crawler.git"
+  },
   "type": "module",
   "main": "./bin/crawl-3rd-party-licenses.js",
   "bin": {
