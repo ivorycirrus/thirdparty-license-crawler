@@ -4,6 +4,7 @@
   "description": "crawling thirdparty licenses from package manager files (packages.json, pom.xml, ...)",
   "license": "MIT",
   "type": "module",
+  "main": "./bin/crawl-3rd-party-licenses.js",
   "bin": {
     "crawl-3rd-party-licenses": "./bin/crawl-3rd-party-licenses.js"
   },
