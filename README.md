@@ -2,10 +2,17 @@
 crawling thirdparty licenses from package manager files (packages.json, pom.xml, ...)
 
 # Quick Start
+Install
+```bashnpm install -g thirdparty-license-crawler
+$ npm install -g thirdparty-license-crawler
+```
+
 Run cli command on your project directory
 ```bash
-$ npx run crawl-3rd-party-licenses
+$ crawl-3rd-party-licenses
 ```
+
+**LICENSE_THIRDPARTY.txt** file is created where you running on the script.
 
 # Dependencies
 This tool is tested on MacOS. Dependelcies are below.
