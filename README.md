@@ -14,7 +14,34 @@ $ crawl-3rd-party-licenses
 
 **LICENSE_THIRDPARTY.txt** file is created where you running on the script.
 
-# Configuration
+# Sample run
+```
+$ crawl-3rd-party-licenses --input .3rdpartylicense
+Collect third-party licenses from package manager files ...
+==[Retrieve package manager files]=========================
+  - package.json
+  - pom.xml
+  - requirements.txt
+==[Collect licenses]=======================================
+  > npm licenses : 3
+  > maven licenses : 2
+  > pypi licenses : 1
+==[Export licenses info]===================================
+# Npm (PackageName@Version)
+    fast-xml-parser@^4.1.1 - MIT
+    globby@^13.1.3 - MIT
+    yargs@^17.6.2 - MIT
+# Maven (GroupId:ArtifactId:Version)
+    junit:junit:4.11 -
+    software.amazon.awssdk:bom:2.17.209 -
+# Pypi (PackageName==Version)
+    boto3==1.24.74 - Apache License 2.0
+------------------------------------------------------------
+LICENSE_THIRDPARTY.txt is created.
+Done.
+```
+
+# Custom Configuration
 You can run with your config files
 ```
 $ crawl-3rd-party-licenses --input <your-config-file>
