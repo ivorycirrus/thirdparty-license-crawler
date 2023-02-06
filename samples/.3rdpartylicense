@@ -1,0 +1,12 @@
+{
+    "pattern_files" : [      
+        "**/package.json",
+        "**/pom.xml",  
+        "**/requirements.txt"
+    ],
+    "pattern_excludes" : [
+        "!**/node_modules/**",
+        "!samples/**"
+    ]
+}
+

@@ -14,6 +14,28 @@ $ crawl-3rd-party-licenses
 
 **LICENSE_THIRDPARTY.txt** file is created where you running on the script.
 
+# Configuration
+You can run with your config files
+```
+$ crawl-3rd-party-licenses --input <your-config-file>
+```
+
+A example of config file
+* pattern_files represented collecting file pattern.
+* pattern_excludes are excluding file pattern. These are normally start with ```!``` for ignore.
+```json
+{
+    "pattern_files" : [
+        "**/package.json",
+        "**/pom.xml",
+        "**/requirements.txt",
+    ],
+    "pattern_excludes" : [
+        "!**/node_modules/**"
+    ]
+}
+```
+
 # Dependencies
 This tool is tested on MacOS. Dependelcies are below.
 * node.js, npm

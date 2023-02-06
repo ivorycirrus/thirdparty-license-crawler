@@ -1,33 +1,35 @@
 #!/usr/bin/env node
 
-import {globby} from 'globby';
-import {DepNpm} from '../lib/dep_npm.js'
-import {DepMaven} from '../lib/dep_maven.js'
-import {DepPypi} from '../lib/dep_pypi.js'
-import {TextOutput} from '../lib/text_output.js'
+import { globby } from 'globby';
+import yargs from 'yargs'
+import { Config } from '../lib/config_loader.js';
+import { DepNpm } from '../lib/dep_npm.js'
+import { DepMaven } from '../lib/dep_maven.js'
+import { DepPypi } from '../lib/dep_pypi.js'
+import { TextOutput } from '../lib/text_output.js'
 
-const pattern_files = [
-    '**/package.json',  // npm
-    '**/pom.xml',       // maven
-    '**/requirements.txt',       // pypi
-];
+const options = yargs(process.argv.slice(2))
+        .usage('Usage: $0 <command> [options]')
+        .option("i", {alias:"input", describe: "Input file for configuration", type: "string", demandOption: false })
+        .option("o", {alias:"output", describe: "Output file including 3ed-party module info", type: "string", demandOption: false })
+        .help(true)
+        .argv;
 
-const pattern_excludes = [
-    '!**/node_modules/**', // npm
-];
-
-const file_3rd_party_licenses = 'LICENSE_THIRDPARTY.txt'
-
-const path_pattern = Array.prototype.concat(pattern_files, pattern_excludes);
+// utilities
 const queryLicenses = (packageFiles, loader) => new Promise(async (resolve, reject) => {
     const moduleList = await loader.collect(packageFiles);
     const licenses = await loader.licenses(moduleList);
     resolve(licenses);
 });
 
+// main function
 (async ()=>{
     console.log('Collect third-party licenses from package manager files ...');
     
+    const {pattern_files, pattern_excludes} = await Config.load(options.input);
+    const file_3rd_party_licenses = (options.output && options.outputtoString().trim().length > 0)?options.output:'LICENSE_THIRDPARTY.txt'
+
+    const path_pattern = Array.prototype.concat(pattern_files, pattern_excludes);
     const paths = await globby(path_pattern);
 
     // retrieve package files

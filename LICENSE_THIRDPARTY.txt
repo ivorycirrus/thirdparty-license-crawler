@@ -1,5 +1,9 @@
 # Npm (PackageName@Version)
     fast-xml-parser@^4.1.1 - MIT
     globby@^13.1.3 - MIT
+    yargs@^17.6.2 - MIT
 
+# Maven (GroupId:ArtifactId:Version)
+
+# Pypi (PackageName==Version)
 
