@@ -1,6 +1,6 @@
 {
   "name": "thirdparty-license-crawler",
-  "version": "0.0.5",
+  "version": "0.0.8",
   "description": "crawling thirdparty licenses from package manager files (packages.json, pom.xml, ...)",
   "license": "MIT",
   "repository": {

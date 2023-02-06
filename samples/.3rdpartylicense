@@ -5,8 +5,7 @@
         "**/requirements.txt"
     ],
     "pattern_excludes" : [
-        "!**/node_modules/**",
-        "!samples/**"
+        "!**/node_modules/**"
     ],
     "module_excludes" : {
         "pypi" : [
