@@ -23,6 +23,7 @@ $ crawl-3rd-party-licenses --input <your-config-file>
 A example of config file
 * pattern_files represented collecting file pattern.
 * pattern_excludes are excluding file pattern. These are normally start with ```!``` for ignore.
+* module excludes are excluding module pattern witch represented by RegEx format. 
 ```json
 {
     "pattern_files" : [
@@ -32,7 +33,18 @@ A example of config file
     ],
     "pattern_excludes" : [
         "!**/node_modules/**"
-    ]
+    ],
+    "module_excludes" : {
+        "npm" : [
+          "^\\@mymodule"
+        ],
+        "maven" : [
+          "^sample"
+        ],
+        "pypi" : [
+            "^py.*"
+        ]
+    }
 }
 ```
 
