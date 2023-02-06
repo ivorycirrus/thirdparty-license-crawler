@@ -16,29 +16,38 @@ const options = yargs(process.argv.slice(2))
         .argv;
 
 // utilities
-const queryLicenses = (packageFiles, loader) => new Promise(async (resolve, reject) => {
-    const moduleList = await loader.collect(packageFiles);
+const queryLicenses = (packageFiles, excludesList,  loader) => new Promise(async (resolve, reject) => {
+    const moduleList = await loader.collect(packageFiles, excludesList);
     const licenses = await loader.licenses(moduleList);
     resolve(licenses);
 });
+const buildModuleExcludes = (module_excludes) => {
+    const extractList = (obj, key) => (obj && obj[key]) ? obj[key].map( e => new RegExp(e) ) : [];
+    return {
+        npm : extractList(module_excludes, 'npm'),
+        maven : extractList(module_excludes, 'maven'),
+        pypi : extractList(module_excludes, 'pypi')
+    };
+}
 
 // main function
 (async ()=>{
     console.log('Collect third-party licenses from package manager files ...');
     
-    const {pattern_files, pattern_excludes} = await Config.load(options.input);
+    const {pattern_files, pattern_excludes, module_excludes} = await Config.load(options.input);
+    const path_pattern = Array.prototype.concat(pattern_files, pattern_excludes);
+    const regexModuleExcludes = buildModuleExcludes(module_excludes);
+    
     const file_3rd_party_licenses = (options.output && options.outputtoString().trim().length > 0)?options.output:'LICENSE_THIRDPARTY.txt'
 
-    const path_pattern = Array.prototype.concat(pattern_files, pattern_excludes);
-    const paths = await globby(path_pattern);
-
     // retrieve package files
-    console.log('\n==[Retrieve package manager files]=========================');
+    console.log('==[Retrieve package manager files]=========================');
     const category = {
         npm: [],
         maven: [],
         pypi: []
-    }    
+    }
+    const paths = await globby(path_pattern);
     paths.forEach(p => {
         console.log(`  - ${p}`)
         if(p.endsWith('package.json')) category.npm.push(p);
@@ -48,18 +57,18 @@ const queryLicenses = (packageFiles, loader) => new Promise(async (resolve, reje
     })
     
     // collect 3rd-party licenses info
-    console.log('\n==[Collect licenses]=======================================');
-    const npm = await queryLicenses(category.npm, DepNpm);
+    console.log('==[Collect licenses]=======================================');
+    const npm = await queryLicenses(category.npm, regexModuleExcludes.npm, DepNpm);
     console.log(`  > npm licenses : ${npm.licenses.length}`);
 
-    const maven = await queryLicenses(category.maven, DepMaven);
+    const maven = await queryLicenses(category.maven, regexModuleExcludes.maven, DepMaven);
     console.log(`  > maven licenses : ${maven.licenses.length}`);
 
-    const pypi = await queryLicenses(category.pypi, DepPypi);
+    const pypi = await queryLicenses(category.pypi, regexModuleExcludes.pypi, DepPypi);
     console.log(`  > pypi licenses : ${pypi.licenses.length}`);
 
     // output to file
-    console.log(`\n==[Export licenses info]===================================`);    
+    console.log(`==[Export licenses info]===================================`);    
     const output = new TextOutput(file_3rd_party_licenses);
     output.add(npm);
     output.add(maven);
@@ -67,7 +76,7 @@ const queryLicenses = (packageFiles, loader) => new Promise(async (resolve, reje
     await output.write();
 
     // done
-    console.log('\n------------------------------------------------------------');
+    console.log('------------------------------------------------------------');
     console.log(`${file_3rd_party_licenses} is created.`)
     console.log('Done.')
 })()

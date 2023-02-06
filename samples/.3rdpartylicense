@@ -7,6 +7,11 @@
     "pattern_excludes" : [
         "!**/node_modules/**",
         "!samples/**"
-    ]
+    ],
+    "module_excludes" : {
+        "pypi" : [
+            "^py.*"
+        ]
+    }
 }
 
