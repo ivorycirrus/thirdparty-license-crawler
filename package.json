@@ -1,0 +1,17 @@
+{
+  "name": "thirdparty-license-crawler",
+  "version": "0.0.1",
+  "description": "crawling thirdparty licenses from package manager files (packages.json, pom.xml, ...)",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "crawl-3rd-party-licenses": "./bin/crawl-3rd-party-licenses.js"
+  },
+  "scripts": {
+    "crawl-3rd-party-licenses": "node ./bin/crawl-3rd-party-licenses.js"
+  },
+  "dependencies": {
+    "fast-xml-parser": "^4.1.1",
+    "globby": "^13.1.3"
+  }
+}
